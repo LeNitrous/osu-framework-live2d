@@ -1,3 +1,5 @@
+#version 100
+
 #include "sh_Utils.h"
 
 precision mediump float;
