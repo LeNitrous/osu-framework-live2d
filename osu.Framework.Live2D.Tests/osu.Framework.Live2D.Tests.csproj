@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
@@ -9,9 +9,7 @@
     <PackageReference Include="NUnit" Version="3.12.0"/>
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0-alpha.1"/>
     <ProjectReference Include="..\osu.Framework.Live2D\osu.Framework.Live2D.csproj"/>
-    <Reference Include="CubismFramework">
-      <HintPath>./bin/$(Configuration)/$(TargetFramework)/CubismFramework.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\CubismFrameworkCS\CubismFramework\CubismFramework.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\**\*"/>
