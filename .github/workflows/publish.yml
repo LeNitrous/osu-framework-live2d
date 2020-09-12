@@ -8,7 +8,7 @@ on:
 jobs:
   publish:
     name: publish
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,14 +16,26 @@ jobs:
           submodules: recursive
 
       - name: Setup
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@main
         with:
           source-url: https://api.nuget.org/v3/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
       
-      - name: Build and Publish
+      - name: Build
         run: ./deploy.ps1
-        shell: powershell
+        shell: pwsh
+
+      - name: Publish to NuGet
+        run: dotnet nuget push ./output/*.nupkg -k ${{secrets.NUGET_API_KEY}} --skip-duplicate --no-symbols true
+
+
+      - name: Prepare Uploading for GitHub Registry
+        uses: actions/setup-dotnet@main
+        with:
+          source-url: https://nuget.pkg.github.com/${{github.actor}}/index.json
         env:
-          NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
+          NUGET_AUTH_TOKEN: ${{github.token}}
+
+      - name: Publish to GitHub Package Registry
+        run: dotnet nuget push ./output/*.nupkg --api-key ${{github.token}} --skip-duplicate --no-symbols true
