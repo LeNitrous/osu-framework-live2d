@@ -27,15 +27,7 @@ jobs:
         shell: pwsh
 
       - name: Publish to NuGet
-        run: dotnet nuget push ./output/*.nupkg -k ${{secrets.NUGET_API_KEY}} --skip-duplicate --no-symbols true
-
-
-      - name: Prepare Uploading for GitHub Registry
-        uses: actions/setup-dotnet@main
-        with:
-          source-url: https://nuget.pkg.github.com/${{github.actor}}/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{github.token}}
-
-      - name: Publish to GitHub Package Registry
-        run: dotnet nuget push ./output/*.nupkg --api-key ${{github.token}} --skip-duplicate --no-symbols true
+        run:  |
+           dotnet nuget push ./output/*.nupkg -k ${{secrets.NUGET_API_KEY}} --skip-duplicate --no-symbols true && \
+           dotnet tool install gpr -g && \
+           gpr push ./output/*.nupkg --repository --repository https://github.com/vignette-project/osu-framework-live2d -k ${{github.token}}
