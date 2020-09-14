@@ -2,6 +2,7 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CubismFramework;
 using osu.Framework.Allocation;
@@ -79,7 +80,7 @@ namespace osu.Framework.Graphics.Cubism
 
                 canBreathe = value;
                 breatheMotion?.Terminate(0);
-                resetParameters(PARAMS_BREATH);
+                ResetParameters(PARAMS_BREATH);
 
                 if (CanBreathe && IsLoaded)
                     initializeBreathing();
@@ -96,7 +97,7 @@ namespace osu.Framework.Graphics.Cubism
 
                 canEyeBlink = value;
                 eyeBlinkMotion?.Terminate(0);
-                resetParameters(PARAMS_EYE);
+                ResetParameters(PARAMS_EYE);
 
                 if (CanEyeBlink && IsLoaded)
                     initializeEyeBlink();
@@ -122,6 +123,7 @@ namespace osu.Framework.Graphics.Cubism
         /// </summary>
         /// <param name="force">Clears the queue and immediately plays the motion.</param>
         /// <param name="fadeOutTime">If force is true, smoothly fade out.</param>
+        /// <returns>If the motion was successfully enqueued.</returns>
         public bool StartMotion(string group, int index, MotionType type = MotionType.Base, bool force = false, bool loop = false, double fadeOutTime = 0)
         {
             if (!Asset.MotionGroups.ContainsKey(group)) return false;
@@ -151,20 +153,34 @@ namespace osu.Framework.Graphics.Cubism
         /// </summary>
         public void StopMotion(double fadeOutTime = 0, MotionType type = MotionType.Base) => getMotionQueue(type).Stop(fadeOutTime);
 
+        public bool HasParameter(string name) => Asset.Model.GetParameter(name) != null;
+
+        /// <summary>
+        /// Get the current value of a model's parameter.
+        /// </summary>
+        public double GetParameterValue(string name)
+        {
+            var parameter = Asset.Model.GetParameter(name);
+            if (parameter == null)
+                throw new ArgumentException($"Model does not have a parameter named '{name}'.");
+
+            return parameter.Value / parameter.Maximum;
+        }
+
         /// <summary>
         /// Modify a model's parameter.
         /// </summary>
-        public void SetParameterValue(string name, double value) => modifyParameterValue(name, (param) => param.Value = value );
+        public void SetParameterValue(string name, double value) => modifyParameterValue(name, (current) => value );
 
         /// <summary>
         /// Add value to a model's parameter.
         /// </summary>
-        public void AddParameterValue(string name, double value) => modifyParameterValue(name, (param) => param.Value += value);
+        public void AddParameterValue(string name, double value) => modifyParameterValue(name, (current) => current += value);
 
         /// <summary>
         /// Reduce value to a model's parameter.
         /// </summary>
-        public void SubtractParameterValue(string name, double value) => modifyParameterValue(name, (param) => param.Value -= value);
+        public void SubtractParameterValue(string name, double value) => modifyParameterValue(name, (current) => current -= value);
 
         /// <summary>
         /// Resets all model parameters to its defaults.
@@ -176,6 +192,21 @@ namespace osu.Framework.Graphics.Cubism
 
             if (!IsMoving)
                 Invalidate(Invalidation.DrawNode);
+        }
+
+        /// <summary>
+        /// Resets a model's parameter to its default.
+        /// </summary>
+        public void ResetParameters(IEnumerable<string> parameters)
+        {
+            Asset.Model.RestoreSavedParameters();
+            foreach (string name in parameters)
+            {
+                var param = Asset.Model.GetParameter(name);
+                if (param == null) continue;
+                param.Value = param.Default;
+            }
+            Asset.Model.SaveParameters();
         }
 
         private void initialize()
@@ -225,13 +256,14 @@ namespace osu.Framework.Graphics.Cubism
             }
         }
 
-        private void modifyParameterValue(string name, Action<CubismParameter> action)
+        private void modifyParameterValue(string name, Func<double, double> mod)
         {
             var parameter = Asset.Model.GetParameter(name);
-            if (parameter == null) return;
+            if (parameter == null)
+                throw new ArgumentException($"Model does not have a parameter named '{name}'.");
 
             Asset.Model.RestoreSavedParameters();
-            action?.Invoke(parameter);
+            parameter.Value = parameter.Maximum * mod.Invoke(parameter.Value / parameter.Maximum);
             Asset.Model.SaveParameters();
 
             // Only invalidate when we're not moving to avoid the calls getting doubled
@@ -250,18 +282,6 @@ namespace osu.Framework.Graphics.Cubism
 
             if (!IsMoving)
                 Invalidate(Invalidation.DrawNode);
-        }
-
-        private void resetParameters(string[] parameters)
-        {
-            Asset.Model.RestoreSavedParameters();
-            foreach (string name in parameters)
-            {
-                var param = Asset.Model.GetParameter(name);
-                if (param == null) continue;
-                param.Value = param.Default;
-            }
-            Asset.Model.SaveParameters();
         }
 
         protected override void Update()
@@ -294,7 +314,7 @@ namespace osu.Framework.Graphics.Cubism
             base.OnHoverLost(e);
 
             if (LookType != CubismLookType.None)
-                resetParameters(PARAMS_LOOK);
+                ResetParameters(PARAMS_LOOK);
         }
 
         protected override void OnMouseUp(MouseUpEvent e)
@@ -302,7 +322,7 @@ namespace osu.Framework.Graphics.Cubism
             base.OnMouseUp(e);
 
             if (LookType == CubismLookType.Drag && !e.IsPressed(MouseButton.Left))
-                resetParameters(PARAMS_LOOK);
+                ResetParameters(PARAMS_LOOK);
         }
 
         public override bool ReceivePositionalInputAt(Vector2 screenSpacePos) => true;

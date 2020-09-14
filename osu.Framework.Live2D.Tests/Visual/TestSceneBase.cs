@@ -1,7 +1,11 @@
 // Copyright (c) Nitrous <n20gaming2000@gmail.com>. Licensed under the MIT Licence.
 // See the LICENCE file in the repository root for full licence text.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using CubismFramework;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -18,6 +22,9 @@ namespace osu.Framework.Live2D.Tests.Visual
     {
         protected Container<Drawable> Container;
         protected CubismSprite Sprite;
+        protected static string[] Parameters => typeof(CubismDefaultParameterId)
+                .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                .Select(f => f.GetValue(null) as string).ToArray();
         protected virtual Colour4 BackgroundColour => Colour4.Transparent;
 
         [BackgroundDependencyLoader]
@@ -68,9 +75,9 @@ namespace osu.Framework.Live2D.Tests.Visual
 
                     var bar = new Box
                     {
-                        RelativeSizeAxes = Axes.X,
+                        RelativeSizeAxes = Axes.Both,
+                        Anchor = Anchor.Centre,
                         Colour = Colour4.White,
-                        Height = 5
                     };
 
                     bars.Add(param, bar);
@@ -84,7 +91,20 @@ namespace osu.Framework.Live2D.Tests.Visual
                         Children = new Drawable[]
                         {
                             new SpriteText { Text = param, Scale = new Vector2(0.75f) },
-                            bar
+                            new Container
+                            {
+                                RelativeSizeAxes = Axes.X,
+                                Height = 5,
+                                Children = new Drawable[]
+                                {
+                                    new Box
+                                    {
+                                        RelativeSizeAxes = Axes.Both,
+                                        Colour = Colour4.White.Opacity(0.25f),
+                                    },
+                                    bar
+                                }
+                            }
                         }
                     });
                 }
@@ -96,9 +116,13 @@ namespace osu.Framework.Live2D.Tests.Visual
 
                 foreach (var (name, bar) in bars)
                 {
-                    var param = sprite.Asset.Model.GetParameter(name);
-                    bar.Width = (float)(MathHelper.Clamp(param.Value, 0, 1));
+                    var param = map((float)sprite.GetParameterValue(name), 0, 1, -0.5f, 0.5f);
+                    bar.Width = Math.Clamp(param, -0.5f, 0.5f);
+                    bar.Colour = param > 0 ? Colour4.White : Colour4.Red;
                 }
+
+                float map(float value, float fromSource, float toSource, float fromDestination, float toDestination) =>
+                    (value - fromSource) / (toSource - fromSource) * (toDestination - fromDestination) + fromDestination;
             }
         }
     }

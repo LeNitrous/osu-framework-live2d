@@ -38,10 +38,7 @@ namespace osu.Framework.Live2D.Tests.Visual
             AddStep("stop motion", () => Sprite.StopMotion());
             AddAssert("check if stopped", () => !Sprite.IsMoving);
 
-            var parameters = typeof(CubismDefaultParameterId)
-                .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                .Select(f => f.GetValue(null) as string).ToArray();
-            Add(new ParameterMonitor(Sprite, parameters));
+            Add(new ParameterMonitor(Sprite, Parameters));
         }
     }
 }
