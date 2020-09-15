@@ -25,20 +25,16 @@ namespace osu.Framework.Graphics.Cubism
         {
             if (string.IsNullOrEmpty(name)) return null;
 
-            CubismAsset asset;
-    
             try
             {
                 var baseDir = name.Split('.', 2)[0];
                 var mdlPath = name.Substring(baseDir.Length + 1, (name.Length - baseDir.Length) - 1);
-                asset = new CubismAsset($"{baseDir}/{mdlPath}", Retrieve);
+                return new CubismAsset($"{baseDir}/{mdlPath}", Retrieve);
             }
             catch (Exception e)
             {
                 throw e;
             }
-
-            return asset;
         }
 
         /// <summary>
