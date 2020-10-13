@@ -5,7 +5,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ppy.osu.Framework" Version="2020.1004.0"/>
+    <PackageReference Include="ppy.osu.Framework" Version="2020.1013.0"/>
     <ProjectReference Include="..\CubismFrameworkCS\CubismFramework\CubismFramework.csproj" PrivateAssets="All"/>
   </ItemGroup>
   <ItemGroup>
