@@ -1,4 +1,5 @@
 #addin nuget:?package=Cake.ExtendedNuGet&version=2.1.1
+#addin nuget:?package=Cake.FileHelpers&version=3.3.0
 
 #addin nuget:?package=Cake.Issues&version=0.9.1
 #addin nuget:?package=Cake.Issues.MsBuild&version=0.9.0
@@ -45,6 +46,8 @@ Task("DetermineVersion")
         }
 
         Information(version);
+        EnsureDirectoryExists(artifactsDirectory);
+        FileWriteText(artifactsDirectory.CombineWithFilePath("version"), version);
     });
 
 Task("Clean")
