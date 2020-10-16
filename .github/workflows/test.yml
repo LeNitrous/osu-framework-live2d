@@ -2,10 +2,7 @@ name: test
 
 on:
   push:
-    branches:
-      - master
   pull_request:
-      - master
   repository_dispatch:
     types: [ push-nativelibs ]
 
