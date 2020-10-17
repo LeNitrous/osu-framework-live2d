@@ -20,7 +20,6 @@ jobs:
         run: |
           curl -1 -O 'https://dl.cloudsmith.io/public/vignette/vg-prebuiltlibs/raw/names/vignette.NativeLibs/versions/2020.1027.0/vignette.NativeLibs.zip'
           unzip vignete.NativeLibs.zip
-        uses: mxschmitt/action-tmate@v3
 
       - name: Setup
         uses: actions/setup-dotnet@main
@@ -30,3 +29,9 @@ jobs:
         with:
           script-path: ./build/build.cake
           target: Test
+          
+      - name: "FAILED: Setup tmate session"
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          sudo: false
