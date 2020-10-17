@@ -12,18 +12,15 @@ jobs:
         with:
           submodules: recursive
       
-      - name: Checkout NativeLibs
-        uses: actions/checkout@v2
-        with:
-          repository: vignette-project/vignette-native
-          path: vignette.NativeLibs
+      - name: Obtain NativeLibs
+        run: |
+          curl -1 -O 'https://dl.cloudsmith.io/public/vignette/vg-prebuiltlibs/raw/files/vignette.NativeLibs.zip'
+          unzip vignete.NativeLibs.zip
 
       - name: Setup
         uses: actions/setup-dotnet@main
         with:
           source-url: https://api.nuget.org/v3/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
       
       - name: Run Cake Build Script
         uses: cake-build/cake-action@v1
