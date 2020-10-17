@@ -14,7 +14,7 @@ jobs:
       
       - name: Obtain NativeLibs
         run: |
-          curl -1 -O 'https://dl.cloudsmith.io/public/vignette/vg-prebuiltlibs/raw/files/vignette.NativeLibs.zip'
+          curl -1 -O 'https://dl.cloudsmith.io/public/vignette/vg-prebuiltlibs/raw/names/vignette.NativeLibs/versions/2020.1027.0/vignette.NativeLibs.zip'
           unzip vignete.NativeLibs.zip
 
       - name: Setup
