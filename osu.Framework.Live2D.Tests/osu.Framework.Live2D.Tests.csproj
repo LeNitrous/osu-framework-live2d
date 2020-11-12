@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1"/>
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0-alpha.1"/>
     <PackageReference Include="NUnit" Version="3.12.0"/>
-    <PackageReference Include="ppy.osu.Framework" Version="2020.1013.0" PrivateAssets="All"/>
+    <PackageReference Include="ppy.osu.Framework" Version="2020.1111.0" PrivateAssets="All"/>
     <ProjectReference Include="..\osu.Framework.Live2D\osu.Framework.Live2D.csproj"/>
     <ProjectReference Include="..\CubismFrameworkCS\CubismFramework\CubismFramework.csproj" PrivateAssets="All"/>
   </ItemGroup>
