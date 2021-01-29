@@ -20,7 +20,7 @@ namespace Vignette.Application.Live2D.Utils
 
         public static float RadianToDegrees(float radians) => (radians * 180.0f) * MathF.PI;
 
-        public static float DirectionToRadian(Vector2 from, Vector2 to)
+        public static float DirectionToRadian(CubismVector2 from, CubismVector2 to)
         {
             float q1, q2, ret;
 
@@ -37,7 +37,7 @@ namespace Vignette.Application.Live2D.Utils
             return ret;
         }
 
-        public static float DirectionToDegrees(Vector2 from, Vector2 to)
+        public static float DirectionToDegrees(CubismVector2 from, CubismVector2 to)
         {
             float radian, degree;
 
@@ -50,6 +50,6 @@ namespace Vignette.Application.Live2D.Utils
             return degree;
         }
 
-        public static Vector2 RadianToDirection(float totalAngle) => new Vector2(MathF.Sin(totalAngle), MathF.Cos(totalAngle));
+        public static CubismVector2 RadianToDirection(float totalAngle) => new CubismVector2(MathF.Sin(totalAngle), MathF.Cos(totalAngle));
     }
 }

@@ -15,9 +15,9 @@ namespace Vignette.Application.Live2D.Physics
 {
     public class CubismPhysics
     {
-        public Vector2 Gravity { get; set; }
+        public CubismVector2 Gravity { get; set; }
 
-        public Vector2 Wind { get; set; }
+        public CubismVector2 Wind { get; set; }
 
         private const float air_resistance = 5.0f;
 
@@ -161,7 +161,7 @@ namespace Vignette.Application.Live2D.Physics
         {
             for (int i = 0; i < physicsRig.SubRigCount; i++)
             {
-                var totalTranslation = Vector2.Zero;
+                var totalTranslation = CubismVector2.Zero;
                 float totalAngle = 0;
 
                 var currentSetting = physicsRig.Settings[i];
@@ -190,7 +190,7 @@ namespace Vignette.Application.Live2D.Physics
                 float radAngle = CubismMath.DegreesToRadian(-totalAngle);
                 float totalTranslationX = (totalTranslation.X * MathF.Cos(radAngle)) - (totalTranslation.Y * MathF.Sin(radAngle));
                 float totalTranslationY = (totalTranslation.X * MathF.Cos(radAngle)) + (totalTranslation.Y * MathF.Sin(radAngle));
-                totalTranslation = new Vector2(totalTranslationX, totalTranslationY);
+                totalTranslation = new CubismVector2(totalTranslationX, totalTranslationY);
 
                 updateParticles(
                     currentParticles,
@@ -235,24 +235,24 @@ namespace Vignette.Application.Live2D.Physics
                 var currentSetting = physicsRig.Settings[i];
 
                 var top = physicsRig.Particles[currentSetting.BaseParticleIndex];
-                top.InitialPosition = Vector2.Zero;
-                top.LastPosition = new Vector2(top.InitialPosition.X, top.InitialPosition.Y);
-                top.LastGravity = new Vector2(0, -1);
-                top.LastGravity *= new Vector2(0, -1);
-                top.Velocity = Vector2.Zero;
-                top.Force = Vector2.Zero;
+                top.InitialPosition = CubismVector2.Zero;
+                top.LastPosition = new CubismVector2(top.InitialPosition.X, top.InitialPosition.Y);
+                top.LastGravity = new CubismVector2(0, -1);
+                top.LastGravity *= new CubismVector2(0, -1);
+                top.Velocity = CubismVector2.Zero;
+                top.Force = CubismVector2.Zero;
 
                 for (int j = 1; j < currentSetting.ParticleCount; j++)
                 {
                     var particle = physicsRig.Particles[currentSetting.BaseParticleIndex + j];
-                    var radius = new Vector2(0, particle.Radius);
+                    var radius = new CubismVector2(0, particle.Radius);
                     particle.InitialPosition = physicsRig.Particles[currentSetting.BaseParticleIndex + j - 1].InitialPosition + radius;
                     particle.Position = particle.InitialPosition;
                     particle.LastPosition = particle.InitialPosition;
-                    particle.LastGravity = new Vector2(0, -1);
-                    particle.LastGravity *= new Vector2(0, -1);
-                    particle.Velocity = Vector2.Zero;
-                    particle.Force = Vector2.Zero;
+                    particle.LastGravity = new CubismVector2(0, -1);
+                    particle.LastGravity *= new CubismVector2(0, -1);
+                    particle.Velocity = CubismVector2.Zero;
+                    particle.Force = CubismVector2.Zero;
                 }
             }
         }
@@ -260,9 +260,9 @@ namespace Vignette.Application.Live2D.Physics
         private void updateParticles(
             List<PhysicsParticle> strand,
             int strandCount,
-            Vector2 totalTranslation,
+            CubismVector2 totalTranslation,
             float totalAngle,
-            Vector2 windDirection,
+            CubismVector2 windDirection,
             float thresholdValue,
             float deltaTimeSeconds,
             float airResistance
@@ -286,7 +286,7 @@ namespace Vignette.Application.Live2D.Physics
 
                 float directionX = (MathF.Cos(radian) * direction.X) - (direction.Y * MathF.Sin(radian));
                 float directionY = (MathF.Cos(radian) * direction.X) + (direction.Y * MathF.Sin(radian));
-                direction = new Vector2(directionX, directionY);
+                direction = new CubismVector2(directionX, directionY);
 
                 strand[i].Position = strand[i - 1].Position + direction;
 
@@ -301,7 +301,7 @@ namespace Vignette.Application.Live2D.Physics
                 strand[i].Position = strand[i - 1].Position + (newDirection * strand[i].Radius);
 
                 if (MathF.Abs(strand[i].Position.X) < thresholdValue)
-                    strand[i].Position = new Vector2(0, strand[i].Position.Y);
+                    strand[i].Position = new CubismVector2(0, strand[i].Position.Y);
 
                 if (delay != 0)
                 {
@@ -310,7 +310,7 @@ namespace Vignette.Application.Live2D.Physics
                     strand[i].Velocity *= strand[i].Mobility;
                 }
 
-                strand[i].Force = Vector2.Zero;
+                strand[i].Force = CubismVector2.Zero;
                 strand[i].LastGravity = currentGravity;
             }
         }
@@ -426,7 +426,7 @@ namespace Vignette.Application.Live2D.Physics
         }
 
         private void getInputTranslationXFromNormalizedParameterValue(
-            ref Vector2 targetTranslation,
+            ref CubismVector2 targetTranslation,
             ref float targetAngle,
             CubismParameter parameter,
             PhysicsNormalization normalizationPosition,
@@ -448,7 +448,7 @@ namespace Vignette.Application.Live2D.Physics
         }
 
         private void getInputTranslationYFromNormalizedParameterValue(
-            ref Vector2 targetTranslation,
+            ref CubismVector2 targetTranslation,
             ref float targetAngle,
             CubismParameter parameter,
             PhysicsNormalization normalizationPosition,
@@ -470,7 +470,7 @@ namespace Vignette.Application.Live2D.Physics
         }
 
         private void getInputAngleFromNormalizedParameterValue(
-            ref Vector2 targetTranslation,
+            ref CubismVector2 targetTranslation,
             ref float targetAngle,
             CubismParameter parameter,
             PhysicsNormalization normalizationPosition,
@@ -492,11 +492,11 @@ namespace Vignette.Application.Live2D.Physics
         }
 
         private float getOutputTranslationX(
-            Vector2 translation,
+            CubismVector2 translation,
             List<PhysicsParticle> particles,
             int particleIndex,
             bool isInverted,
-            Vector2 parentGravity
+            CubismVector2 parentGravity
         )
         {
             float outputValue = parentGravity.X;
@@ -508,11 +508,11 @@ namespace Vignette.Application.Live2D.Physics
         }
 
         private float getOutputTranslationY(
-            Vector2 translation,
+            CubismVector2 translation,
             List<PhysicsParticle> particles,
             int particleIndex,
             bool isInverted,
-            Vector2 parentGravity
+            CubismVector2 parentGravity
         )
         {
             float outputValue = parentGravity.Y;
@@ -524,11 +524,11 @@ namespace Vignette.Application.Live2D.Physics
         }
 
         private float getOutputAngle(
-            Vector2 translation,
+            CubismVector2 translation,
             List<PhysicsParticle> particles,
             int particleIndex,
             bool isInverted,
-            Vector2 parentGravity
+            CubismVector2 parentGravity
         )
         {
             float outputValue;
@@ -546,17 +546,17 @@ namespace Vignette.Application.Live2D.Physics
             return outputValue;
         }
 
-        private float getOutputScaleTranslationX(Vector2 translationScale, float angleScale)
+        private float getOutputScaleTranslationX(CubismVector2 translationScale, float angleScale)
         {
             return translationScale.X;
         }
 
-        private float getOutputScaleTranslationY(Vector2 translationScale, float angleScale)
+        private float getOutputScaleTranslationY(CubismVector2 translationScale, float angleScale)
         {
             return translationScale.Y;
         }
 
-        private float getOutputScaleAngle(Vector2 translationScale, float angleScale)
+        private float getOutputScaleAngle(CubismVector2 translationScale, float angleScale)
         {
             return angleScale;
         }
