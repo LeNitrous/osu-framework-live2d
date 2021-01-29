@@ -32,8 +32,8 @@ namespace Vignette.Application.Live2D.Physics
             var gravity = setting.Meta.EffectiveForces.Gravity;
             var wind = setting.Meta.EffectiveForces.Wind;
 
-            physicsRig.Gravity = new Vector2(gravity.X, gravity.Y);
-            physicsRig.Wind = new Vector2(wind.X, wind.Y);
+            physicsRig.Gravity = new CubismVector2(gravity.X, gravity.Y);
+            physicsRig.Wind = new CubismVector2(wind.X, wind.Y);
             physicsRig.SubRigCount = setting.Meta.PhysicsSettingCount;
 
             physicsRig.Settings = new PhysicsSubRig[physicsRig.SubRigCount];
@@ -147,7 +147,7 @@ namespace Vignette.Application.Live2D.Physics
                         Delay = setting.PhysicsSettings[i].Vertices[j].Delay,
                         Acceleration = setting.PhysicsSettings[i].Vertices[j].Acceleration,
                         Radius = setting.PhysicsSettings[i].Vertices[j].Radius,
-                        Position = new Vector2(position.X, position.Y),
+                        Position = new CubismVector2(position.X, position.Y),
                     };
                 }
 

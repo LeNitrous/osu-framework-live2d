@@ -8,12 +8,27 @@ using System;
 namespace Vignette.Application.Live2D.Utils
 {
     /// <summary>
-    /// Implements CubismVector2 API from CubismNative.
+    /// Implements CubismVector2 API from CubismNative. Vector2 is 2D Vector that contains two single precision floating point numbers.
     /// </summary>
     public class CubismVector2
     {
-        internal float X, Y;
+        public float X, Y;
 
+        /// <summary>
+        /// Constructs a new instance.
+        /// </summary>
+        /// <param name="value">The value that will initialize this instance.</param>
+        public CubismVector2(float value)
+        {
+            X = value;
+            Y = value;
+        }
+
+        /// <summary>
+        /// Constructs a new Vector2.
+        /// </summary>
+        /// <param name="x">The x coordinate of the net Vector2.</param>
+        /// <param name="y">The y coordinate of the net Vector2.</param>
         public CubismVector2(float x, float y)
         {
             X = x;
@@ -59,6 +74,28 @@ namespace Vignette.Application.Live2D.Utils
         {
             return base.GetHashCode();
         }
+        #endregion
+
+        #region Fields
+        /// <summary>
+        /// Defines an instance with all components set to 1.
+        /// </summary>
+        public static readonly CubismVector2 Zero = new CubismVector2(0, 0);
+
+        /// <summary>
+        /// Defines an instance with all components set to 1.
+        /// </summary>
+        public static readonly CubismVector2 One = new CubismVector2(1, 1);
+
+        /// <summary>
+        /// Defines a unit-length Vector2 that points towards the X-axis.
+        /// </summary>
+        public static readonly CubismVector2 UnitX = new CubismVector2(1, 0);
+
+        /// <summary>
+        /// Defines a zero-length Vector2.
+        /// </summary>
+        public static readonly CubismVector2 UnitY = new CubismVector2(0, 1);
         #endregion
 
         #region Methods
