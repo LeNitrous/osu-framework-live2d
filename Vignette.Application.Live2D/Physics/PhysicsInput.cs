@@ -5,6 +5,7 @@
 
 using osuTK;
 using Vignette.Application.Live2D.Model;
+using Vignette.Application.Live2D.Utils;
 
 namespace Vignette.Application.Live2D.Physics
 {
@@ -23,7 +24,7 @@ namespace Vignette.Application.Live2D.Physics
         public NormalizedPhysicsParameterValueGetter GetNormalizedPhysicsParameterValue { get; set; }
 
         public delegate void NormalizedPhysicsParameterValueGetter(
-            ref Vector2 TargetTranslation,
+            ref CubismVector2 TargetTranslation,
             ref float TargetAngle,
             CubismParameter parameter,
             PhysicsNormalization normalizationPosition,

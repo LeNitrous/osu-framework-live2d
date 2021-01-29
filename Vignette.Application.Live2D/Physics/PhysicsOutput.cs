@@ -4,7 +4,7 @@
 // License for Live2D can be found here: http://live2d.com/eula/live2d-open-software-license-agreement_en.html
 
 using System.Collections.Generic;
-using osuTK;
+using Vignette.Application.Live2D.Utils;
 
 namespace Vignette.Application.Live2D.Physics
 {
@@ -16,7 +16,7 @@ namespace Vignette.Application.Live2D.Physics
 
         public int VertexIndex { get; set; }
 
-        public Vector2 TranslationScale { get; set; }
+        public CubismVector2 TranslationScale { get; set; }
 
         public float AngleScale { get; set; }
 
@@ -35,15 +35,15 @@ namespace Vignette.Application.Live2D.Physics
         public PhysicsScaleGetter GetScale { get; set; }
 
         public delegate float PhysicsValueGetter(
-            Vector2 translation,
+            CubismVector2 translation,
             List<PhysicsParticle> particles,
             int particleIndex,
             bool isInverted,
-            Vector2 parentGravity
+            CubismVector2 parentGravity
         );
 
         public delegate float PhysicsScaleGetter(
-            Vector2 translationScale,
+            CubismVector2 translationScale,
             float angleScale
         );
     }
