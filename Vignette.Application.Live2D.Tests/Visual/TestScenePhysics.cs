@@ -54,7 +54,7 @@ namespace Vignette.Application.Live2D.Tests.Visual
             {
                 using var physicsReader = new StreamReader(TestResources.GetModelResource(@"Hiyori.physics3.json"));
                 var physicsSetting = JsonSerializer.Deserialize<CubismPhysicsSetting>(physicsReader.ReadToEnd());
-                Physics = new CubismPhysics(model, physicsSetting) { Gravity = new Vector2(0, -1) };
+                Physics = new CubismPhysics(model, physicsSetting) { Gravity = new Utils.CubismVector2(0, -1) };
 
                 using var motionReader = new StreamReader(TestResources.GetModelResource(@"motions/Hiyori_m02.motion3.json"));
                 var motionSetting = JsonSerializer.Deserialize<CubismMotionSetting>(motionReader.ReadToEnd());

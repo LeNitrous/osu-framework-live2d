@@ -10,7 +10,7 @@ namespace Vignette.Application.Live2D.Utils
     /// <summary>
     /// Implements CubismVector2 API from CubismNative. Vector2 is 2D Vector that contains two single precision floating point numbers.
     /// </summary>
-    public class CubismVector2
+    public struct CubismVector2
     {
         public float X, Y;
 
