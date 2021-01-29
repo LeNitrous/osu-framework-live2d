@@ -15,7 +15,10 @@ namespace Vignette.Application.Live2D.Utils
         internal float X, Y;
 
         public CubismVector2(float x, float y)
-        { }
+        {
+            X = x;
+            Y = y;
+        }
 
         #region Operator Overloads
         // HACK: As C# doesn't allow compound overloads, we'll just implement all the possible operators that will be used.
