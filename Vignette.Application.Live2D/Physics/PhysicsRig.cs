@@ -4,6 +4,7 @@
 // License for Live2D can be found here: http://live2d.com/eula/live2d-open-software-license-agreement_en.html
 
 using osuTK;
+using Vignette.Application.Live2D.Utils;
 
 namespace Vignette.Application.Live2D.Physics
 {
@@ -19,8 +20,8 @@ namespace Vignette.Application.Live2D.Physics
 
         public PhysicsParticle[] Particles { get; set; }
 
-        public Vector2 Gravity { get; set; }
+        public CubismVector2 Gravity { get; set; }
 
-        public Vector2 Wind { get; set; }
+        public CubismVector2 Wind { get; set; }
     }
 }
