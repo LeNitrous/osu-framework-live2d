@@ -441,7 +441,7 @@ namespace Vignette.Application.Live2D.Physics
                 parameter.Maximum,
                 parameter.Default,
                 normalizationPosition.Minimum,
-                normalizationPosition.Minimum,
+                normalizationPosition.Maximum,
                 normalizationPosition.Default,
                 isInverted
             ) * weight;
@@ -463,7 +463,7 @@ namespace Vignette.Application.Live2D.Physics
                 parameter.Maximum,
                 parameter.Default,
                 normalizationPosition.Minimum,
-                normalizationPosition.Minimum,
+                normalizationPosition.Maximum,
                 normalizationPosition.Default,
                 isInverted
             ) * weight;
