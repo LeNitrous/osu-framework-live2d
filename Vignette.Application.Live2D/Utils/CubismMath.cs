@@ -10,9 +10,9 @@ namespace Vignette.Application.Live2D.Utils
 {
     public static class CubismMath
     {
-        public static float Maximum(float left, float right) => (left > right) ? right : left;
+        public static float Maximum(float left, float right) => (left > right) ? left : right;
 
-        public static float Minimum(float left, float right) => (left > right) ? right : left;
+        public static float Minimum(float left, float right) => (left < right) ? left : right;
 
         public static double EaseSine(double t) => Math.Clamp(0.5f - 0.5f * Math.Cos(Math.PI * t), 0.0f, 1.0f);
 
