@@ -52,7 +52,7 @@ namespace Vignette.Application.Live2D.Physics
                     {
                         Minimum = setting.PhysicsSettings[i].Normalization.Position.Minimum,
                         Maximum = setting.PhysicsSettings[i].Normalization.Position.Maximum,
-                        Default = setting.PhysicsSettings[i].Normalization.Position.Default
+                        Default = setting.PhysicsSettings[i].Normalization.Position.Default,
                     },
 
                     InputCount = setting.PhysicsSettings[i].Input.Count,
