@@ -12,7 +12,7 @@ namespace Vignette.Application.Live2D.Tests
     {
         public static void Main(string[] args)
         {
-            using GameHost host = Host.GetSuitableHost(@"visual-tests", useOsuTK: true);
+            using GameHost host = Host.GetSuitableHost(@"Vignette");
             host.Run(new VisualTestGame());
         }
     }
