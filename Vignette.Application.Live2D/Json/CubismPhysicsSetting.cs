@@ -4,6 +4,8 @@
 // License for Live2D can be found here: http://live2d.com/eula/live2d-open-software-license-agreement_en.html
 
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using osuTK;
 
 namespace Vignette.Application.Live2D.Json
 {
@@ -31,9 +33,11 @@ namespace Vignette.Application.Live2D.Json
 
             public class EffectiveForce
             {
-                public Vector2D Gravity { get; set; }
+                [JsonConverter(typeof(Vector2Converter))]
+                public Vector2 Gravity { get; set; }
 
-                public Vector2D Wind { get; set; }
+                [JsonConverter(typeof(Vector2Converter))]
+                public Vector2 Wind { get; set; }
             }
 
             public class PhysicsDictionaryItem
@@ -84,7 +88,8 @@ namespace Vignette.Application.Live2D.Json
 
             public class VertexSetting
             {
-                public Vector2D Position { get; set; }
+                [JsonConverter(typeof(Vector2Converter))]
+                public Vector2 Position { get; set; }
 
                 public float Mobility { get; set; }
 
@@ -117,13 +122,6 @@ namespace Vignette.Application.Live2D.Json
 
                 public float Maximum { get; set; }
             }
-        }
-
-        public class Vector2D
-        {
-            public float X { get; set; }
-
-            public float Y { get; set; }
         }
     }
 }

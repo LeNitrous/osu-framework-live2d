@@ -30,8 +30,8 @@ namespace Vignette.Application.Live2D.Physics
 
             physicsRig = new PhysicsRig
             {
-                Gravity = new Vector2(setting.Meta.EffectiveForces.Gravity.X, setting.Meta.EffectiveForces.Gravity.Y),
-                Wind = new Vector2(setting.Meta.EffectiveForces.Wind.X, setting.Meta.EffectiveForces.Wind.Y),
+                Gravity = setting.Meta.EffectiveForces.Gravity,
+                Wind = setting.Meta.EffectiveForces.Wind,
                 SubRigs = new PhysicsSubRig[setting.Meta.PhysicsSettingCount],
             };
 
@@ -110,7 +110,7 @@ namespace Vignette.Application.Live2D.Physics
             {
                 data[i] = new PhysicsParticle
                 {
-                    InitialPosition = new Vector2(settings[i].Position.X, settings[i].Position.Y),
+                    InitialPosition = settings[i].Position,
                     Mobility = settings[i].Mobility,
                     Delay = settings[i].Delay,
                     Acceleration = settings[i].Acceleration,
