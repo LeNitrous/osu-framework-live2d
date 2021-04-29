@@ -1,0 +1,20 @@
+version: 2
+registries:
+  nuget-feed-nuget-pkg-github-com-vignette-project-index-json:
+    type: nuget-feed
+    url: https://nuget.pkg.github.com/vignette-project/index.json
+    username: "${{secrets.NUGET_FEED_NUGET_PKG_GITHUB_COM_VIGNETTE_PROJECT_INDEX_JSON_USERNAME}}"
+    password: "${{secrets.NUGET_FEED_NUGET_PKG_GITHUB_COM_VIGNETTE_PROJECT_INDEX_JSON_PASSWORD}}"
+
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: NUnit
+    versions:
+    - 3.13.0
+  registries:
+  - nuget-feed-nuget-pkg-github-com-vignette-project-index-json
